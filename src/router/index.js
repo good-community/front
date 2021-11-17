@@ -90,11 +90,11 @@ export const constantRoutes = [{
     path: '/',
     component: Layout,
     children: [{
-      path: 'test',
-      name: 'test',
-      component: () => import('@/views/test/test'),
+      path: 'user-info',
+      name: 'user-info',
+      component: () => import('@/views/user/user-info'),
       meta: {
-        title: '测试',
+        title: '用户信息',
       }
     }]
   },

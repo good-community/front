@@ -13,7 +13,7 @@ const name = defaultSettings.title || 'vue Admin Template' // page title
 // For example, Mac: sudo npm run
 // You can change the port by the following methods:
 // port = 9528 npm run dev OR npm run dev --port = 9528
-const port = process.env.port || process.env.npm_config_port || 9528 // dev port
+const port = process.env.port || process.env.npm_config_port || 9555 // dev port
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
@@ -57,8 +57,8 @@ module.exports = {
     }
   },
   chainWebpack(config) {
-    config.plugins.delete('preload') // TODO: need test
-    config.plugins.delete('prefetch') // TODO: need test
+    config.plugins.delete('preload') // TODO: need user
+    config.plugins.delete('prefetch') // TODO: need user
 
     // set svg-sprite-loader
     config.module

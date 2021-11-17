@@ -83,8 +83,8 @@ export default {
     };
     return {
       loginForm: {
-        username: "admin",
-        password: "111111"
+        username: "wjy",
+        password: "666666"
       },
       loginRules: {
         username: [
@@ -130,21 +130,20 @@ export default {
           console.log("验证失败");
         }
       });
-      return 0;
       // 可自定义登录时的逻辑处理
       this.req({
-        url: "login",
+        url: "/user/login",
         data: {
-          account: that.loginForm.username,
-          psw: md5(that.loginForm.password + "*/-sz") //对密码进行加盐md5处理
+          username: that.loginForm.username,
+          password: that.loginForm.password //对密码进行加盐md5处理
         },
         method: "POST"
       }).then(
         res => {
-          console.log("res :", res);
+          console.log("login res :", res);
           localStorage.setItem("hasLogin", true);
-          localStorage.setItem("token", res.data.token);
-          localStorage.setItem("userInfo", JSON.stringify(res.data.userInfo));
+          //localStorage.setItem("token", res.header.Set-Cookie);
+          //localStorage.setItem("userInfo", JSON.stringify(res.data.userInfo));
           this.$router.push({ path: "/" });
         },
         err => {

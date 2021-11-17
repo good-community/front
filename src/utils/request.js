@@ -40,7 +40,7 @@ service.interceptors.response.use(
     const res = response.data
 
     // if the custom code is not 100, it is judged as an error.
-    if (res.code !== 200) {
+    if (res.code !== 'S0000') {
       Message({
         message: res.msg || 'Error check your token or method',
         type: 'error',

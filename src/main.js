@@ -13,14 +13,18 @@ import router from './router'
 import request from '@/utils/request'
 
 import '@/icons' // icon
-import '@/permission' // permission control
+import '@/permission'
+import axios from "axios"; // permission control
 
 // set ElementUI lang to EN
-Vue.use(ElementUI, { locale })
+Vue.use(ElementUI, {locale})
 
 Vue.prototype.req = request
 
 Vue.config.productionTip = false
+
+//携带登录信息，即允许后端写入cookie
+axios.defaults.withCredentials = true
 
 new Vue({
   el: '#app',
