@@ -152,7 +152,9 @@ export default {
         }).then(
           res => {
             console.log("login res :", res);
-            localStorage.setItem("hasLogin", true);
+            localStorage.setItem("hasLogin", true)
+            localStorage.setItem("loginUserId", res.data.id)
+            localStorage.setItem("loginUsername", res.data.username)
             Message({
               message: "登录成功",
               type: 'success',

@@ -238,10 +238,10 @@ this.req({
 );
 ```
 按照最佳实践，应该把网络请求统一抽离到单一文件，然后在每个具体的页面进行对服务端数据的处理。
-比如下面的这种形式，首先创建文件**src/api/user-info.js**，把在**test**组件中需要用到的网络请求都写入此文件。
+比如下面的这种形式，首先创建文件**src/api/user.js**，把在**test**组件中需要用到的网络请求都写入此文件。
 
 ```
-// src/api/user-info.js
+// src/api/user.js
 import request from '@/utils/request'
 
 export function getList(params) {
@@ -258,7 +258,7 @@ export function getList(params) {
 在组件**test.vue**中引入请求方法
 
 ```
-import { getTableData } from "@/api/user-info.js";
+import { getTableData } from "@/api/user.js";
 ……
 mounted: function() {
 // 网络请求统一处理

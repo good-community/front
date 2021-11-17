@@ -95,17 +95,32 @@ export const constantRoutes = [
   //测试页面
   {
     path: '/',
+    meta: {
+      title: '用户管理',
+      icon:'user'
+    },
     component: Layout,
-    children: [{
-      path: 'user-info',
-      name: 'user-info',
-      component: () => import('@/views/user/user-info'),
-      meta: {
-        title: '用户信息',
-        icon: 'user'
+    children: [
+      {
+        path: 'user-info',
+        name: 'user-info',
+        component: () => import('@/views/user/user-info'),
+        meta: {
+          title: '用户信息',
+        }
+      },
+      //个人信息
+      {
+        path: 'me',
+        name: 'me',
+        component: () => import('@/views/user/me'),
+        meta: {
+          title: '个人信息',
+        }
       }
-    }]
+    ]
   },
+
   // 404 page must be placed at the end !!!
   {
     path: '*',
