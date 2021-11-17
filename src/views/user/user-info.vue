@@ -1,9 +1,11 @@
 <template>
   <el-table :data="tableData" style="width: 100%">
-    <el-table-column prop="id" label="id" width="180"></el-table-column>
-    <el-table-column prop="username" label="姓名" width="180"></el-table-column>
-    <el-table-column prop="contact" label="联系方式"></el-table-column>
-    <el-table-column prop="introduction" label="简介"></el-table-column>
+    <el-table-column prop="id" label="id" width="180" />
+    <el-table-column prop="username" label="姓名" width="180"/>
+    <el-table-column prop="city" label="注册城市"/>
+    <el-table-column prop="contact" label="联系方式"/>
+    <el-table-column prop="communityType" label="注册社区"/>
+    <el-table-column prop="introduction" label="简介"/>
   </el-table>
 </template>
 

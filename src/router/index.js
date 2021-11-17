@@ -8,7 +8,6 @@ import Layout from '@/layout'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
- * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
  *
  * hidden: true                   if set true, item will not show in the sidebar(default is false)
  * alwaysShow: true               if set true, will always show the root menu
@@ -30,12 +29,20 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-export const constantRoutes = [{
+export const constantRoutes = [
+  //登录
+  {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
+  //注册
+  {
+    path: '/register',
+    component: () => import('@/views/login/register'),
+    hidden: true
+  },
+  //404
   {
     path: '/404',
     component: () => import('@/views/404'),
@@ -51,13 +58,13 @@ export const constantRoutes = [{
       icon: 'plane'
     },
     children: [{
-        path: 'check-template',
-        name: 'check-template',
-        component: () => import('@/views/material/check-template'),
-        meta: {
-          title: '查看模板',
-        }
-      },
+      path: 'check-template',
+      name: 'check-template',
+      component: () => import('@/views/material/check-template'),
+      meta: {
+        title: '查看模板',
+      }
+    },
       {
         path: 'logo',
         name: 'logo',
@@ -95,6 +102,7 @@ export const constantRoutes = [{
       component: () => import('@/views/user/user-info'),
       meta: {
         title: '用户信息',
+        icon: 'user'
       }
     }]
   },

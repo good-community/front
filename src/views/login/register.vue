@@ -1,15 +1,15 @@
 <template>
-  <div class="login-container">
+  <div class="register-container">
     <el-form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="loginRules"
-      class="login-form"
+      ref="registerForm"
+      :model="registerForm"
+      :rules="registerRules"
+      class="register-form"
       auto-complete="on"
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">好社区</h3>
+        <h3 class="title">新用户注册</h3>
       </div>
 
       <el-form-item prop="username">
@@ -19,7 +19,7 @@
         <el-input
           id="account"
           ref="username"
-          v-model="loginForm.username"
+          v-model="registerForm.username"
           placeholder="用户名"
           name="username"
           type="text"
@@ -36,36 +36,67 @@
           id="psw"
           :key="passwordType"
           ref="password"
-          v-model="loginForm.password"
+          v-model="registerForm.password"
           :type="passwordType"
           placeholder="密码"
           name="password"
           tabindex="2"
           auto-complete="on"
-          @keyup.enter.native="handleLogin"
+          @keyup.enter.native="handleRegister"
         />
         <span class="show-pwd" @click="showPwd">
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
         </span>
       </el-form-item>
 
+      <el-form-item prop="city">
+        <span class="svg-container">
+          <svg-icon icon-class="form"/>
+        </span>
+        <el-input
+          id="city"
+          ref="city"
+          v-model="registerForm.city"
+          placeholder="注册城市"
+          name="city"
+          type="text"
+          tabindex="3"
+          auto-complete="on"
+        />
+      </el-form-item>
+
+      <el-form-item prop="idNo">
+        <span class="svg-container">
+          <svg-icon icon-class="form"/>
+        </span>
+        <el-input
+          id="idNo"
+          ref="idNo"
+          v-model="registerForm.idNo"
+          placeholder="身份证号"
+          name="idNo"
+          type="text"
+          tabindex="4"
+          auto-complete="on"
+        />
+      </el-form-item>
+
+      <el-form-item label="注册社区" prop="communityType">
+        <el-radio-group v-model="registerForm.communityType">
+          <el-radio :label="0">劳您驾</el-radio>
+          <el-radio :label="1">我可以</el-radio>
+        </el-radio-group>
+      </el-form-item>
+
       <el-button
-        id="login_btn"
+        id="register_btn"
         :loading="loading"
         type="primary"
         style="width:100%;margin-bottom:30px;"
-        @click.native.prevent="handleLogin"
-      >登录
-      </el-button>
-    </el-form>
-    <div style=" position: relative; width: 520px; max-width: 100%; padding: 0 35px 0; margin: 0 auto;">
-      <el-button
-        id="register_btn"
-        style="width:100%; margin-bottom:30px;"
-        @click.native.prevent="redirectRegister"
+        @click.native.prevent="handleRegister"
       >注册
       </el-button>
-    </div>
+    </el-form>
   </div>
 </template>
 
@@ -74,7 +105,7 @@
 import {Message} from "element-ui";
 
 export default {
-  name: "Login",
+  name: "Register",
   data() {
     const validateUsername = (rule, value, callback) => {
       if (value.length < 3 || value.length > 20) {
@@ -90,17 +121,46 @@ export default {
         callback();
       }
     };
+    const validateCity = (rule, value, callback) => {
+      if (value.length < 2 || value.length > 10) {
+        callback(new Error("城市长度为2-10个字符"));
+      } else {
+        callback();
+      }
+    };
+    const validateIdNo = (rule, value, callback) => {
+      if (value.length !== 18) {
+        callback(new Error("身份证号长度为18个字符"));
+      } else {
+        callback();
+      }
+    };
+    const validateCommunityType = (rule, value, callback) => {
+      callback();
+    };
     return {
-      loginForm: {
+      registerForm: {
         username: "",
-        password: ""
+        password: "",
+        city: "",
+        idNo: "",
+        communityType: ""
       },
-      loginRules: {
+      registerRules: {
         username: [
           {required: true, trigger: "blur", validator: validateUsername}
         ],
         password: [
           {required: true, trigger: "blur", validator: validatePassword}
+        ],
+        city: [
+          {required: true, trigger: "blur", validator: validateCity}
+        ],
+        idNo: [
+          {required: true, trigger: "blur", validator: validateIdNo}
+        ],
+        communityType: [
+          {required: true, trigger: "blur", validator: validateCommunityType}
         ]
       },
       loading: false,
@@ -127,38 +187,37 @@ export default {
         this.$refs.password.focus();
       });
     },
-    redirectRegister() {
-      this.$router.push({path: "/register"});
-    },
-    handleLogin() {
+    handleRegister() {
       let that = this;
       this.loading = true;
       //数据格式验证
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.registerForm.validate(valid => {
         if (!valid) {
           console.log("格式校验错误");
           this.loading = false
           return
         }
 
-        // 登录时的逻辑处理
+        // 注册时的逻辑处理
         this.req({
-          url: "/user/login",
+          url: "/user/register",
           data: {
-            username: that.loginForm.username,
-            password: that.loginForm.password
+            username: that.registerForm.username,
+            password: that.registerForm.password,
+            city: that.registerForm.city,
+            idNo: that.registerForm.idNo,
+            communityType: that.registerForm.communityType
           },
           method: "POST"
         }).then(
           res => {
-            console.log("login res :", res);
-            localStorage.setItem("hasLogin", true);
+            console.log("register res :", res);
             Message({
-              message: "登录成功",
+              message: "注册成功",
               type: 'success',
               duration: 2 * 1000
             })
-            this.$router.push({path: "/"});
+            this.$router.push({path: "/login"});
           },
           err => {
             console.log("err :", err);
@@ -185,13 +244,13 @@ $light_gray: #fff;
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
+  .register-container .el-input input {
     color: $cursor;
   }
 }
 
 /* reset element-ui css */
-.login-container {
+.register-container {
   .el-input {
     display: inline-block;
     height: 47px;
@@ -228,13 +287,13 @@ $bg: #2d3a4b;
 $dark_gray: #889aa4;
 $light_gray: #eee;
 
-.login-container {
+.register-container {
   min-height: 100%;
   width: 100%;
   background-color: $bg;
   overflow: hidden;
 
-  .login-form {
+  .register-form {
     position: relative;
     width: 520px;
     max-width: 100%;
