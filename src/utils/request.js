@@ -2,6 +2,7 @@ import axios from 'axios'
 import {
   Message
 } from 'element-ui'
+import constantRoutes from "@/router/index.js";
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
@@ -46,6 +47,10 @@ service.interceptors.response.use(
         type: 'error',
         duration: 2 * 1000
       })
+      if (res.code === 'A0000') {
+        console.log('not login!!!')
+        localStorage.setItem("hasLogin", null)
+      }
       return Promise.reject(new Error(res.msg || 'Error'))
     } else {
       return res

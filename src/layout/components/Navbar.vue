@@ -9,7 +9,7 @@
       <el-button @click="redirectMe" type="text" style="font-size: 130%">
         <svg-icon icon-class="user" style="margin-right: 5px"/>{{ username }}
       </el-button>
-      <el-button @click="logout">退出登录</el-button>
+      <el-button @click="logout">退出</el-button>
     </div>
   </div>
 </template>
@@ -41,7 +41,7 @@ export default {
     },
     async logout() {
       localStorage.removeItem('hasLogin')
-      this.$router.push('/login?redirect=${this.$route.fullPath}')
+      this.$router.push('/login')
     },
     redirectMe() {
       this.$router.push('/me')

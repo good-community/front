@@ -11,7 +11,6 @@
 
 <script>
 import {getUserInfo} from "@/api/user.js";
-import moment from "moment";
 
 export default {
   data() {
@@ -24,12 +23,27 @@ export default {
     getUserInfo().then(res => {
       console.log("api tableData :", res)
       this.tableData = res.data["records"]
+      for (let i = 0; i < this.tableData.length; i++) {
+        let item = this.tableData[i]
+        let empty='--'
+        if (item.contact === '') {
+          item.contact = empty
+        }
+        if (item.introduction === '') {
+          item.introduction = empty
+        }
+        if (item.city === '') {
+          item.city = empty
+        }
+        if (item.community === '') {
+          item.community = empty
+        }
+      }
     }, err => {
       console.log("err :", err)
     })
   },
-  methods: {
-  }
+  methods: {}
 }
 </script>
 

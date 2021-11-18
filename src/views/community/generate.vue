@@ -168,7 +168,7 @@ export default {
       }).then(
         res => {
           console.log("res :", res);
-          this.$router.push({ path: "/material/check" });
+          this.$router.push({ path: "/community/check" });
         },
         err => {
           console.log("err :", err);

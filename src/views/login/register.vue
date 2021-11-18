@@ -49,22 +49,6 @@
         </span>
       </el-form-item>
 
-      <el-form-item prop="city">
-        <span class="svg-container">
-          <svg-icon icon-class="form"/>
-        </span>
-        <el-input
-          id="city"
-          ref="city"
-          v-model="registerForm.city"
-          placeholder="注册城市"
-          name="city"
-          type="text"
-          tabindex="3"
-          auto-complete="on"
-        />
-      </el-form-item>
-
       <el-form-item prop="idNo">
         <span class="svg-container">
           <svg-icon icon-class="form"/>
@@ -81,11 +65,23 @@
         />
       </el-form-item>
 
-      <el-form-item label="注册社区" prop="communityType">
-        <el-radio-group v-model="registerForm.communityType">
-          <el-radio :label="0">劳您驾</el-radio>
-          <el-radio :label="1">我可以</el-radio>
-        </el-radio-group>
+      <el-form-item prop="city">
+        <span class="svg-container">
+          <svg-icon icon-class="form"/>
+        </span>
+        <el-select style="width: 90%" placeholder="选择城市" v-model="registerForm.city">
+          <el-option  v-for="item in cities" :label="item.name" :value="item.code" :key="item.code"/>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item prop="communityType">
+        <span class="svg-container">
+          <svg-icon icon-class="form"/>
+        </span>
+
+        <el-select style="width: 90%" placeholder="选择社区" v-model="registerForm.communityType">
+          <el-option  v-for="item in communities" :label="item.name" :value="item.code" :key="item.code"/>
+        </el-select>
       </el-form-item>
 
       <el-button
@@ -103,34 +99,35 @@
 <script>
 
 import {Message} from "element-ui";
+import {getCities, getCommunities} from "@/api/dict";
 
 export default {
   name: "Register",
   data() {
     const validateUsername = (rule, value, callback) => {
       if (value.length < 3 || value.length > 20) {
-        callback(new Error("用户名长度为3-20个字符"));
+        callback(new Error("必填，用户名长度为3-20个字符"));
       } else {
         callback();
       }
     };
     const validatePassword = (rule, value, callback) => {
       if (value.length < 3 || value.length > 20) {
-        callback(new Error("密码长度为3-20个字符"));
+        callback(new Error("必填，密码长度为3-20个字符"));
       } else {
         callback();
       }
     };
     const validateCity = (rule, value, callback) => {
       if (value.length < 2 || value.length > 10) {
-        callback(new Error("城市长度为2-10个字符"));
+        callback(new Error("必填，城市长度为2-10个字符"));
       } else {
         callback();
       }
     };
     const validateIdNo = (rule, value, callback) => {
       if (value.length !== 18) {
-        callback(new Error("身份证号长度为18个字符"));
+        callback(new Error("必填，身份证号长度为18个字符"));
       } else {
         callback();
       }
@@ -139,6 +136,8 @@ export default {
       callback();
     };
     return {
+      communities:[],
+      cities:[],
       registerForm: {
         username: "",
         password: "",
@@ -175,6 +174,16 @@ export default {
       },
       immediate: true
     }
+  },
+  mounted: function () {
+    //加载城市字典
+    getCities().then(res=>{
+      this.cities=res.data
+    })
+    //加载城社区字典
+    getCommunities().then(res=>{
+      this.communities=res.data
+    })
   },
   methods: {
     showPwd() {

@@ -50,17 +50,16 @@ export const constantRoutes = [
   },
   // 素材管理
   {
-    path: '/material',
+    path: '/community',
     component: Layout,
-    redirect: '/material/upload',
     meta: {
-      title: '素材管理',
-      icon: 'plane'
+      title: '社区功能',
+      icon: 'table'
     },
     children: [{
       path: 'check-template',
       name: 'check-template',
-      component: () => import('@/views/material/check-template'),
+      component: () => import('@/views/community/check-template'),
       meta: {
         title: '查看模板',
       }
@@ -68,7 +67,7 @@ export const constantRoutes = [
       {
         path: 'logo',
         name: 'logo',
-        component: () => import('@/views/material/check-logo'),
+        component: () => import('@/views/community/check-logo'),
         meta: {
           title: '查看logo',
         }
@@ -76,17 +75,17 @@ export const constantRoutes = [
       {
         path: 'generate',
         name: 'generate',
-        component: () => import('@/views/material/generate'),
+        component: () => import('@/views/community/generate'),
         meta: {
           title: '生成素材',
         }
       },
       {
-        path: 'check',
-        name: 'check',
-        component: () => import('@/views/material/check'),
+        path: 'statistics',
+        name: 'statistics',
+        component: () => import('@/views/community/statistics'),
         meta: {
-          title: '查看素材',
+          title: '统计分析',
         }
       },
     ]
