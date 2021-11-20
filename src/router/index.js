@@ -48,7 +48,7 @@ export const constantRoutes = [
     component: () => import('@/views/404'),
     hidden: true
   },
-  // 素材管理
+  // 社区功能
   {
     path: '/community',
     component: Layout,
@@ -81,6 +81,15 @@ export const constantRoutes = [
         }
       },
       {
+         path: 'laoninjia',
+         name:'laoninjia',  
+         component: () => import('@/views/community/laoninjia'),
+         meta: {
+           title: '社区劳您驾查询',
+         }   
+
+      },
+      {
         path: 'statistics',
         name: 'statistics',
         component: () => import('@/views/community/statistics'),
@@ -91,7 +100,7 @@ export const constantRoutes = [
     ]
   },
 
-  //测试页面
+  
   {
     path: '/',
     meta: {
@@ -118,6 +127,34 @@ export const constantRoutes = [
         }
       }
     ]
+  },
+
+  {
+    path: '/',
+    meta: {
+      title: '我的服务',
+      icon:'user'
+    },
+    component: Layout,
+    children: [
+      {
+        path: 'laoninjia_me',
+        name: 'laoninjia_me',
+        component: () => import('@/views/user/laoninjia'),
+        meta: {
+          title: '我的请求',
+        }
+      },
+      {
+        path: 'wokeyi_me',
+        name: 'wokeyi_me',
+        component: () => import('@/views/user/wokeyi'),
+        meta: {
+          title: '我的响应',
+        }
+      }
+    ]
+
   },
 
   // 404 page must be placed at the end !!!
