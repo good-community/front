@@ -91,13 +91,14 @@
            this.$emit('closeDialog',false);
   
       },
-      failandclose(){
+      failandclose(id){//拒绝响应
 
+         
           this.dialogTableVisible=false;
           this.$emit('closeDialog',false);
 
       },
-      onSubmit(){
+      onSubmit(id){//接受响应
           this.dialogTableVisible=false;
           this.$emit('closeDialog',false);
 
