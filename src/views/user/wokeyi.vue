@@ -13,11 +13,9 @@
 <div style="cursor: pointer;" >&nbsp;&nbsp;&nbsp;   <el-input placeholder="请输入主题名称" icon="search" v-model="search" @input="inputChange" class="search-input" style="width: 30%;">
 </el-input>     
   
-<el-button type="primary" style="margin-left:300px"@click="vm.showDialog=true ">添加</el-button></div>
+</div>
 
-     <Dialog
-      @closeDialog="close"
-      v-if="vm.showDialog"></Dialog>      
+ 
 <br/><br/>
 
   <el-table
@@ -42,11 +40,11 @@
           <br/>  
           <el-form-item label="主题名称">
             
-            <el-input  v-model="props.row.subject"></el-input>
+          <span>{{props.row.subject}}</span>
           </el-form-item>
           <br/>
           <el-form-item label="请求描述" >
-                <div style="width:600px"><el-input type="textarea" :rows=10 v-model="props.row.content"></el-input></div>
+                <div style="width:600px"><span>{{props.row.content}}</span></div>
           </el-form-item>
           <br/>
            <el-form-item label="图片">
@@ -68,15 +66,32 @@
               <el-form-item label="修改时间">
             <span>{{ props.row.modify_date }}</span>
           </el-form-item>
-           <br/>
+          &nbsp; &nbsp; &nbsp;
           <el-form-item label="状态">
             <span>{{ props.row.status}}</span>
           </el-form-item>
 
+          <br/>
+   
+
+          <br/>
+          <el-form-item label="我的响应信息"  class="item" >
+  
+        <div style="width:600px"><el-input type="textarea" :rows=10 v-model="props.row.response_content"></el-input></div>
+
+          </el-form-item>
+          <br/>
+
+          <br/>
+          <el-form-item label="响应状态"  class="item" >
+             <span>{{props.row.response_status}}</span>
+          </el-form-item>
+          <br/>
         </el-form>
         
      <div style="cursor: pointer;text-align:center;" >
-       <el-button type="warning" @click="delete0(props.row.id)">撤销</el-button>
+       <el-button type="primary" @click="response_again(props.row.response_id)">再次响应</el-button>
+       <el-button type="warning" @click="delete_response(props.row.response_id)">撤销</el-button>
     </div>
    
       </template>
@@ -222,10 +237,16 @@
                 this.$forceUpdate() 
             },
        
-       delete0(val){//依据id删除
+       delete_response(val){
 
        this.reload();
                         
+       },
+
+       response_again(){
+
+
+          this.reload();
        },
  
       filterTag(value, row) {
@@ -253,3 +274,13 @@
 
   }
 </script>
+
+<style >
+ .item .el-form-item__label{
+    color:#1637ec;
+     font-weight:bold;
+     font-size:15px;
+
+  }
+
+</style>

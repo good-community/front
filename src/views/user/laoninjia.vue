@@ -15,9 +15,9 @@
   
 <el-button type="primary" style="margin-left:300px"@click="vm.showDialog=true ">添加</el-button></div>
 
-     <Dialog
+     <Dialog0
       @closeDialog="close"
-      v-if="vm.showDialog"></Dialog>      
+      v-if="vm.showDialog" ></Dialog0>      
 <br/><br/>
 
   <el-table
@@ -37,7 +37,14 @@
           </el-form-item>
              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
           <el-form-item label="请求类型">
-            <span>{{ props.row.kind}}</span>
+              <el-select v-model="props.row.kind" placeholder="请选择">
+            <el-option
+              v-for="item in option"
+              :key="item.label"
+              :label="item.value"
+              :value="item.value"/>
+          </el-select>
+
           </el-form-item>
           <br/>  
           <el-form-item label="主题名称">
@@ -72,10 +79,20 @@
           <el-form-item label="状态">
             <span>{{ props.row.status}}</span>
           </el-form-item>
+           <span style="margin-left:200px"></span>
+        <el-form-item label="已获得响应">
+               <el-button type="text" @click="vm.showDialog = true">点击查看</el-button>
+
+          </el-form-item>
 
         </el-form>
         
-     <div style="cursor: pointer;text-align:center;" >
+       <Dialog1
+      @closeDialog="close"
+      v-if="vm.showDialog"></Dialog1>  
+
+     <div style="cursor: pointer;" >
+       <el-button type="primary" @click="modify0(props.row)">保存</el-button>
        <el-button type="warning" @click="delete0(props.row.id)">撤销</el-button>
     </div>
    
@@ -145,8 +162,8 @@
 
 <script>
  import Vue from 'vue'
-  import Dialog from '@/views/community/wokeyi'
-  Vue.component('Dialog',Dialog)
+  import Dialog1 from '@/views/user/wokeyi_show'
+  Vue.component('Dialog1',Dialog1)
 
   
 
@@ -159,6 +176,25 @@
         vm: {
               showDialog: false,
             },
+        
+        option:[{
+          value:'小时工',
+          label:'小时工'
+        },
+          {
+            value:'搬重物',
+            label:'搬重物'
+          },
+          {
+            value:'社区服务志愿者',
+            label:'社区服务志愿者'
+          },
+          {
+            value:'上下班搭车',
+            label:'上下班搭车'
+
+          }
+        ],
         tableData: [{
           id:1,
           user_id:21313,
@@ -226,6 +262,11 @@
 
        this.reload();
                         
+       },
+
+       modify0(val){
+           
+           this.reload();
        },
  
       filterTag(value, row) {
