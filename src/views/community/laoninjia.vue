@@ -27,7 +27,7 @@
           </el-form-item>
           &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
           <el-form-item label="用户标识">
-            <span>{{ props.row.user_id}}</span>
+            <span>{{ props.row.userId}}</span>
           </el-form-item>
              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
           <el-form-item label="请求类型">
@@ -43,7 +43,7 @@
           </el-form-item>
           <br/>
            <el-form-item label="图片">
-            <img :src="'data:image/png;base64,'+props.row.base64_image" alt="">
+            <img :src="'data:image/png;base64,'+props.row.base64Image" alt="">
           </el-form-item>
            <br/>
           <el-form-item label="请求人数">
@@ -51,15 +51,15 @@
           </el-form-item>
            <br/>
           <el-form-item label="请求结束日期">
-            <span>{{ props.row.end_date }}</span>
+            <span>{{ props.row.endDate }}</span>
           </el-form-item>
                &nbsp; &nbsp; &nbsp;
               <el-form-item label="创建时间">
-            <span>{{ props.row.begin_date }}</span>
+            <span>{{ props.row.beginDate }}</span>
           </el-form-item>
             &nbsp; &nbsp; &nbsp;
               <el-form-item label="修改时间">
-            <span>{{ props.row.modify_date }}</span>
+            <span>{{ props.row.modifyDate }}</span>
           </el-form-item>
            <br/>
           <el-form-item label="状态">
@@ -69,7 +69,7 @@
         </el-form>
         
      <div style="cursor: pointer;text-align:center;" >
-       <el-button type="primary" @click="vm.showDialog=true ">我来帮他</el-button>
+       <el-button type="primary" @click="help(props.row)">我来帮他</el-button>
     </div>
 
      <Dialog
@@ -86,7 +86,7 @@
     </el-table-column>
 
      <el-table-column
-      prop="user_id"
+      prop="userId"
       label="用户标识"
       width="100"
       align="center">
@@ -94,13 +94,14 @@
      <el-table-column
       prop="subject"
       label="主题名称"
-      width="180">
+      width="180"
+      align="center">
     </el-table-column>
    
 
 
     <el-table-column
-      prop="begin_date"
+      prop="beginDate"
       label="请求日期"
       sortable
       width="180"
@@ -142,6 +143,8 @@
 <script>
  import Vue from 'vue'
   import Dialog from '@/views/community/wokeyi'
+  import axios from 'axios'
+ import date_trans from '@/api/date_trans.js'
   Vue.component('Dialog',Dialog)
 
   
@@ -191,7 +194,7 @@
           status:'待响应',
           base64_image:'',
         }, {
-            id:4,
+          id:4,
           user_id:21313,
           content:'会对撒谎对撒谎的哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈',
           numbers:1,
@@ -206,10 +209,39 @@
 
           }
       },
+
+    created() {
+    axios
+      .post('/laoninjia/query_all')
+      .then(response =>{
+        console.log(response.data);
+      //   for(var i=0;i<response.data['data'].length;i++){
+      //    var k=response.data['data'][i]; 
+      //   response.data['data'][i].modifyDate=date_trans( k.modifyDate);    
+      //   response.data['data'][i].beginDate=date_trans( k.beginDate); 
+      //  response.data['data'][i].endDate=date_trans( k.endDate); 
+      //  }
+
+        this.tableData=response.data['data'];
+
+        console.log(this.tableData);
+      })
+      .catch(function (error) { // 请求失败处理
+        console.log(error);
+      });
+  }, 
      
     methods: {
+
+      help(val){
+        this.vm.showDialog=true;
+        localStorage.setItem('request_id',val.id);
+  
+
+      },
       close(val){
           this.vm.showDialog = val;
+           
           },
               inputChange(e) {
                 //强制刷新

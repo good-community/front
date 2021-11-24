@@ -18,6 +18,7 @@
 </template>
  
 <script>
+  import axios from 'axios'
   export default {
     name: "",
     data(){
@@ -46,11 +47,35 @@
       },
       failandclose(){
 
+             
           this.dialogTableVisible=false;
           this.$emit('closeDialog',false);
 
       },
       onSubmit(){
+        var date=new Date();
+        var request_id=localStorage.getItem('request_id');
+        var user_id=localStorage.getItem('loginUserId');
+        var begin_date=date.toLocaleDateString();
+        var modify_date=date.toLocaleDateString();
+        console.log(request_id);
+        axios.post('/wokeyi/publish', {
+
+          requestId: Number(request_id),    
+          userId: Number(user_id),
+          content: this.form.desc,
+          beginDate: begin_date,
+          modifyDate: modify_date,
+          status:'待接受'
+
+            })
+            .then(function (response) {
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+
           this.dialogTableVisible=false;
           this.$emit('closeDialog',false);
 

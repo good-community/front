@@ -15,6 +15,10 @@ import request from '@/utils/request'
 import '@/icons' // icon
 import '@/permission'
 import axios from "axios"; // permission control
+import global_ from '@/views/Global.vue'
+Vue.prototype.GLOBAL = global_;
+axios.defaults.baseURL=global_.BASE_URL;
+Vue.prototype.$ajax = axios;
 
 // set ElementUI lang to EN
 Vue.use(ElementUI, {locale})

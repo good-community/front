@@ -13,11 +13,11 @@
 <div style="cursor: pointer;" >&nbsp;&nbsp;&nbsp;   <el-input placeholder="请输入主题名称" icon="search" v-model="search" @input="inputChange" class="search-input" style="width: 30%;">
 </el-input>     
   
-<el-button type="primary" style="margin-left:300px"@click="vm.showDialog=true ">添加</el-button></div>
+<el-button type="primary" style="margin-left:300px"@click="vm.showDialog0=true ">添加</el-button></div>
 
      <Dialog0
-      @closeDialog="close"
-      v-if="vm.showDialog" ></Dialog0>      
+      @closeDialog="close0"
+      v-if="vm.showDialog0" ></Dialog0>      
 <br/><br/>
 
   <el-table
@@ -163,6 +163,8 @@
 <script>
  import Vue from 'vue'
   import Dialog1 from '@/views/user/wokeyi_show'
+  import Dialog0 from '@/views/user/laoninjia_request'
+  Vue.component('Dialog0',Dialog0)
   Vue.component('Dialog1',Dialog1)
 
   
@@ -174,6 +176,7 @@
       return {
         search : '',
         vm: {
+              showDialog0:false,
               showDialog: false,
             },
         
@@ -252,6 +255,12 @@
     methods: {
       close(val){
           this.vm.showDialog = val;
+
+          },
+
+           close0(val){
+          this.vm.showDialog0 = val;
+
           },
               inputChange(e) {
                 //强制刷新
