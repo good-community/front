@@ -31,7 +31,7 @@
           </el-form-item>
           &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
           <el-form-item label="用户标识">
-            <span>{{ props.row.user_id}}</span>
+            <span>{{ props.row.userId}}</span>
           </el-form-item>
              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
           <el-form-item label="请求类型">
@@ -48,7 +48,7 @@
           </el-form-item>
           <br/>
            <el-form-item label="图片">
-            <img :src="'data:image/png;base64,'+props.row.base64_image" alt="">
+            <img :src= props.row.base64Image height="380" width="668"alt="">
           </el-form-item>
            <br/>
           <el-form-item label="请求人数">
@@ -56,15 +56,15 @@
           </el-form-item>
            <br/>
           <el-form-item label="请求结束日期">
-            <span>{{ props.row.end_date }}</span>
+            <span>{{ props.row.endDate }}</span>
           </el-form-item>
                &nbsp; &nbsp; &nbsp;
               <el-form-item label="创建时间">
-            <span>{{ props.row.begin_date }}</span>
+            <span>{{ props.row.beginDate }}</span>
           </el-form-item>
             &nbsp; &nbsp; &nbsp;
               <el-form-item label="修改时间">
-            <span>{{ props.row.modify_date }}</span>
+            <span>{{ props.row.modifyDate }}</span>
           </el-form-item>
           &nbsp; &nbsp; &nbsp;
           <el-form-item label="状态">
@@ -77,21 +77,21 @@
           <br/>
           <el-form-item label="我的响应信息"  class="item" >
   
-        <div style="width:600px"><el-input type="textarea" :rows=10 v-model="props.row.response_content"></el-input></div>
+        <div style="width:600px"><el-input type="textarea" :rows=10 v-model="props.row.responseContent"></el-input></div>
 
           </el-form-item>
           <br/>
 
           <br/>
           <el-form-item label="响应状态"  class="item" >
-             <span>{{props.row.response_status}}</span>
+             <span>{{props.row.responseStatus}}</span>
           </el-form-item>
           <br/>
         </el-form>
         
      <div style="cursor: pointer;text-align:center;" >
-       <el-button type="primary" @click="response_again(props.row.response_id)">再次响应</el-button>
-       <el-button type="warning" @click="delete_response(props.row.response_id)">撤销</el-button>
+       <el-button type="primary" @click="response_again(props.row)">再次响应</el-button>
+       <el-button type="warning" @click="delete_response(props.row)">撤销</el-button>
     </div>
    
       </template>
@@ -105,7 +105,7 @@
     </el-table-column>
 
      <el-table-column
-      prop="user_id"
+      prop="userId"
       label="用户标识"
       width="100"
       align="center">
@@ -119,7 +119,7 @@
 
 
     <el-table-column
-      prop="begin_date"
+      prop="beginDate"
       label="请求日期"
       sortable
       width="180"
@@ -161,6 +161,9 @@
 <script>
  import Vue from 'vue'
   import Dialog from '@/views/community/wokeyi'
+  import axios from 'axios'
+  import qs from  'qs'
+
   Vue.component('Dialog',Dialog)
 
   
@@ -227,6 +230,25 @@
 
           }
       },
+
+        created() {
+    axios
+      .post('/wokeyi/request',
+        qs.stringify({
+           userId:localStorage.getItem('loginUserId')
+        })
+      )
+      .then(response =>{
+        console.log(response.data);
+
+        this.tableData=response.data['data'];
+
+        console.log(this.tableData);
+      })
+      .catch(function (error) { // 请求失败处理
+        console.log(error);
+      });
+  },
      
     methods: {
       close(val){
@@ -238,15 +260,51 @@
             },
        
        delete_response(val){
+        
+                axios
+      .post('/wokeyi/delete',
+        qs.stringify({
+          responseId:val.responseId
+        })
+      )
+      .then(response =>{
+        console.log(response.data);
+      })
+      .catch(function (error) { // 请求失败处理
+        console.log(error);
+      });
 
-       this.reload();
+          //  this.reload();
+          location.reload();
+ 
                         
        },
 
-       response_again(){
+       response_again(val){
+
+         var date=new Date();
 
 
-          this.reload();
+
+                 axios
+      .post('/wokeyi/modify',{
+           
+           id:val.responseId,
+           userId:val.userId,
+           content:val.responseContent,
+           modifyDate: date.toLocaleDateString()
+      }
+      )
+      .then(response =>{
+        console.log(response.data);
+      })
+      .catch(function (error) { // 请求失败处理
+        console.log(error);
+      });
+
+          //  this.reload();
+          location.reload();
+
        },
  
       filterTag(value, row) {

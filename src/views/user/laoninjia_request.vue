@@ -2,22 +2,35 @@
   <div id="dialog">
     <el-dialog title="请求填写" :visible.sync="dialogTableVisible"@close='closeDialog'>
         <el-form ref="form" :model="form" label-width="40px">
+
+        <el-form-item label="期限">
+                          <el-date-picker
+      v-model="form.end_date"
+      type="date"
+      placeholder="选择截止日期"
+      style="width: 150px;">
+    </el-date-picker>
+          </el-form-item>  
              
     <el-form-item label="类型" >
      
-              <el-select v-model="form.kind" placeholder="请选择">
+              <el-select v-model="form.kind" placeholder="请选择" style="width:150px;">
             <el-option
               v-for="item in option"
               :key="item.label"
               :label="item.value"
               :value="item.value"/>
           </el-select>
-   
+           
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>人数</b>&nbsp;&nbsp;
+            <el-input  v-model="form.numbers" style="width:60px;"></el-input>
+
           </el-form-item>
            <el-form-item label="主题">
             
             <el-input  v-model="form.subject"></el-input>
           </el-form-item>           
+
 
   <el-form-item label="内容">
     <el-input type="textarea" v-model="form.desc" :rows="10" style="width: 100%;"></el-input>
@@ -52,6 +65,7 @@
 </template>
  
 <script>
+  import axios from 'axios'
   export default {
     name: "",
     data(){
@@ -70,7 +84,10 @@
           imgUrl:'',
           form:'',
           kind:'',
-          desc: ''
+          desc: '',
+          numbers:1,
+          subject:'',
+          end_date:null//日期类型
         },
            option:[{
           value:'小时工',
@@ -119,14 +136,15 @@ testFileType(arr, fileType) {
 // 上传文件
 uploadImg(params) {
     console.log(params);
-    var imgUrl = '';
     // Promise的数据需要用.then得到
-    this.getBase64(params.file).then(res => {
-        console.log(res); // res就是base64格式的图片数据
-        imgUrl = res;
-    });
 
-    this.imgUrl=imgUrl;
+    this.getBase64(params.file).then(res => {
+
+        this.form.imgUrl=res;
+       console.log(this.form.imgUrl);
+
+    });
+    
 
     // 在此axios请求
 },
@@ -160,6 +178,33 @@ getBase64(file) {
 
       },
       onSubmit(){
+          
+        var date=new Date();
+        var user_id=localStorage.getItem('loginUserId');
+        var begin_date=date.toLocaleDateString();
+        var modify_date=date.toLocaleDateString();
+        console.log(this.form.imgUrl);
+        axios.post('/laoninjia/publish', {
+
+          userId: Number(user_id),
+          kind:this.form.kind,
+          subject:this.form.subject,
+          numbers:this.form.numbers,
+          base64Image:this.form.imgUrl, 
+          content: this.form.desc,
+          endDate:this.form.end_date.toLocaleDateString(),
+          beginDate: begin_date,
+          modifyDate: modify_date,
+          status:'待接受'
+
+            })
+            .then(function (response) {
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+          
           this.dialogTableVisible=false;
           this.$emit('closeDialog',false);
 

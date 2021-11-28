@@ -7,7 +7,7 @@
         <h3>响应id</h3>   
         <span>{{item.id}}</span><br/>
         <h3>响应内容</h3>
-        <span>{{item.desc}}</span><br/>
+        <span>{{item.content}}</span><br/>
         <h3>响应状态</h3>
         <span>{{item.status}}</span><br/>
     <br/>
@@ -27,6 +27,8 @@
 </template>
  
 <script>
+import axios from 'axios'
+import qs from 'qs'
   export default {
     name: "",
     data(){
@@ -34,21 +36,27 @@
           dialogTableVisible:true,
           dialogFormVisible:true,
 
-          form: [{
-          desc: 'shaiudhsaijdiajio',
-          id:'2',
-          status:'已接受',
-        },{
-          desc: 'sadsadsadsad',
-          id:'1',
-          status:'已接受',
-        },{
-          desc: 'sano;djaoio',
-          id:'3',
-          status:'已接受',
-        }]
+          form: [],
       }
     },
+    created() {
+    axios
+      .post('/wokeyi/info_request',
+        qs.stringify({
+           requestId:localStorage.getItem('requestId')
+        })
+      )
+      .then(response =>{
+        console.log(response.data);
+
+        this.form=response.data['data'];
+
+        console.log(this.form);
+      })
+      .catch(function (error) { // 请求失败处理
+        console.log(error);
+      });
+  },
     methods:{
       closeDialog(){
           //传给后端接口
@@ -58,12 +66,38 @@
       },
       failandclose(id){//拒绝响应
 
+            axios
+      .post('/wokeyi/reject',
+        qs.stringify({
+           responseId:id
+        })
+      )
+      .then(response =>{
+        console.log(response.data);
+      })
+      .catch(function (error) { // 请求失败处理
+        console.log(error);
+      });
+
          
           this.dialogTableVisible=false;
           this.$emit('closeDialog',false);
 
       },
       onSubmit(id){//接受响应
+
+         axios
+      .post('/wokeyi/accept',
+        qs.stringify({
+           responseId:id
+        })
+      )
+      .then(response =>{
+        console.log(response.data);
+      })
+      .catch(function (error) { // 请求失败处理
+        console.log(error);
+      });
           this.dialogTableVisible=false;
           this.$emit('closeDialog',false);
 

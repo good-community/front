@@ -42,8 +42,8 @@
             <span>{{ props.row.content }}</span>
           </el-form-item>
           <br/>
-           <el-form-item label="图片">
-            <img :src="'data:image/png;base64,'+props.row.base64Image" alt="">
+           <el-form-item >
+            <img :src= props.row.base64Image height="350" width="600"alt="">
           </el-form-item>
            <br/>
           <el-form-item label="请求人数">
