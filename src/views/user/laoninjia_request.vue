@@ -195,7 +195,7 @@ getBase64(file) {
           endDate:this.form.end_date.toLocaleDateString(),
           beginDate: begin_date,
           modifyDate: modify_date,
-          status:'待接受'
+          status:'待响应'
 
             })
             .then(function (response) {
