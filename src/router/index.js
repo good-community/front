@@ -56,30 +56,7 @@ export const constantRoutes = [
       title: '社区功能',
       icon: 'table'
     },
-    children: [{
-      path: 'check-template',
-      name: 'check-template',
-      component: () => import('@/views/community/check-template'),
-      meta: {
-        title: '查看模板',
-      }
-    },
-      {
-        path: 'logo',
-        name: 'logo',
-        component: () => import('@/views/community/check-logo'),
-        meta: {
-          title: '查看logo',
-        }
-      },
-      {
-        path: 'generate',
-        name: 'generate',
-        component: () => import('@/views/community/generate'),
-        meta: {
-          title: '生成素材',
-        }
-      },
+    children: [
       {
          path: 'laoninjia',
          name:'laoninjia',  

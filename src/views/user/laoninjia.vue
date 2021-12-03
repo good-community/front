@@ -81,7 +81,7 @@
           </el-form-item>
            <span style="margin-left:200px"></span>
         <el-form-item label="已获得响应">
-               <el-button type="text" @click="open(props.row.id)">点击查看</el-button>
+               <el-button type="text" @click="open(props.row.id,props.row.status)">点击查看</el-button>
 
           </el-form-item>
 
@@ -92,7 +92,7 @@
       v-if="vm.showDialog"></Dialog1>  
 
      <div style="cursor: pointer;" >
-       <el-button type="primary" @click="modify0(props.row)">保存</el-button>
+       <el-button type="primary" @click="modify0(props.row,props.row.status)">保存</el-button>
        <el-button type="warning" @click="delete0(props.row)">撤销</el-button>
     </div>
    
@@ -275,10 +275,18 @@
      
     methods: {
 
-      open(val){
-
+      open(val,status){
+       
+       if(status=="待响应"){
         this.vm.showDialog = true;
-        localStorage.setItem("requestId",val);
+        localStorage.setItem("requestId",val);}
+        else {
+           this.$alert('请求已不是待响应状态', '非法操作', {
+          confirmButtonText: '确定',
+
+        });
+
+        }
 
       },
       close(val){
@@ -316,8 +324,10 @@
                         
        },
 
-       modify0(val){
+       modify0(val,status){
 
+      if(status=="待响应" )   
+{
           axios
       .post('/laoninjia/modify',val
       )
@@ -327,9 +337,19 @@
       .catch(function (error) { // 请求失败处理
         console.log(error);
       });
+      
+                location.reload();
+
+      }
+
+      else{
+         this.$alert('请求已不是待响应状态', '非法操作', {
+          confirmButtonText: '确定',
+
+        });
+      }
 
           //  this.reload();
-          location.reload();
        },
  
       filterTag(value, row) {

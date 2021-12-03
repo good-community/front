@@ -4,8 +4,8 @@
  <el-collapse v-model="activeNames" @change="handleChange">
   <el-collapse-item v-for="item in form" title="响应信息" class="title" >
      <br/>  
-        <h3>响应id</h3>   
-        <span>{{item.id}}</span><br/>
+        <h3>响应用户ID</h3>   
+        <span>{{item.userId}}</span><br/>
         <h3>响应内容</h3>
         <span>{{item.content}}</span><br/>
         <h3>响应状态</h3>

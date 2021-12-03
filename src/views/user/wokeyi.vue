@@ -90,8 +90,8 @@
         </el-form>
         
      <div style="cursor: pointer;text-align:center;" >
-       <el-button type="primary" @click="response_again(props.row)">再次响应</el-button>
-       <el-button type="warning" @click="delete_response(props.row)">撤销</el-button>
+       <el-button type="primary" @click="response_again(props.row,props.row.responseStatus)">再次响应</el-button>
+       <el-button type="warning" @click="delete_response(props.row,props.row.responseStatus)">撤销</el-button>
     </div>
    
       </template>
@@ -259,8 +259,9 @@
                 this.$forceUpdate() 
             },
        
-       delete_response(val){
-        
+       delete_response(val,status){
+
+        if(status=="待接受"||status=="拒绝"){
                 axios
       .post('/wokeyi/delete',
         qs.stringify({
@@ -275,16 +276,22 @@
       });
 
           //  this.reload();
-          location.reload();
+          location.reload();}
+          else{
+              this.$alert('响应已被接受，无法进行二次操作', '非法操作', {
+          confirmButtonText: '确定',
+
+        });
+          }
  
                         
        },
 
-       response_again(val){
+       response_again(val,status){
 
          var date=new Date();
 
-
+if(status=="待接受"||status=="拒绝"){
 
                  axios
       .post('/wokeyi/modify',{
@@ -303,7 +310,13 @@
       });
 
           //  this.reload();
-          location.reload();
+          location.reload();}
+          else{
+              this.$alert('响应已被接受，无法进行二次操作', '非法操作', {
+          confirmButtonText: '确定',
+
+        });
+          }
 
        },
  
