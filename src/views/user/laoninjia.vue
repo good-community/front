@@ -93,7 +93,7 @@
 
      <div style="cursor: pointer;" >
        <el-button type="primary" @click="modify0(props.row,props.row.status)">保存</el-button>
-       <el-button type="warning" @click="delete0(props.row)">撤销</el-button>
+       <el-button type="warning" @click="delete0(props.row,props.row.status)">撤销</el-button>
     </div>
    
       </template>
@@ -307,7 +307,9 @@
                 this.$forceUpdate() 
             },
        
-       delete0(val){//参数为对象
+       delete0(val,status){//参数为对象
+
+       if(status=="待响应"){
       axios
       .post('/laoninjia/delete',val
       )
@@ -320,7 +322,13 @@
 
 
 
-          location.reload();
+          location.reload();}
+          else{
+               this.$alert('请求已不是待响应状态', '非法操作', {
+          confirmButtonText: '确定',
+
+        });
+          }
                         
        },
 
