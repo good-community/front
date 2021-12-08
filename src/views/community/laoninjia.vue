@@ -3,7 +3,7 @@
   <!-- <el-button @click="resetDateFilter">清除日期过滤器</el-button>
   <el-button @click="clearFilter">清除所有过滤器</el-button> -->
 
-<!--   
+<!--
    <el-input
           v-model="search"
           size="small"
@@ -25,17 +25,17 @@
           <el-form-item label="请求标识">
             <span>{{ props.row.id }}</span>
           </el-form-item>
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
           <el-form-item label="用户标识">
             <span>{{ props.row.userId}}</span>
           </el-form-item>
-             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
           <el-form-item label="请求类型">
             <span>{{ props.row.kind}}</span>
           </el-form-item>
-          <br/>  
+          <br/>
           <el-form-item label="主题名称">
-            
+
             <span>{{ props.row.subject }}</span>
           </el-form-item>
           <el-form-item label="请求描述">
@@ -67,17 +67,17 @@
           </el-form-item>
 
         </el-form>
-        
+
      <div style="cursor: pointer;text-align:center;" >
        <el-button type="primary" @click="help(props.row)">我来帮他</el-button>
     </div>
 
      <Dialog
       @closeDialog="close"
-      v-if="vm.showDialog"></Dialog>      
+      v-if="vm.showDialog"></Dialog>
       </template>
     </el-table-column>
-    
+
      <el-table-column
       prop="id"
       label="请求标识"
@@ -97,7 +97,7 @@
       width="180"
       align="center">
     </el-table-column>
-   
+
 
 
     <el-table-column
@@ -118,19 +118,19 @@
       filter-placement="bottom-end">
       <template slot-scope="scope">
         <el-tag
-           v-if="scope.row.kind=='小时工'" 
+           v-if="scope.row.kind=='小时工'"
           :type="'primary'"
           disable-transitions>{{scope.row.kind}}</el-tag>
             <el-tag
-           v-if="scope.row.kind=='搬重物'" 
+           v-if="scope.row.kind=='搬重物'"
           :type="'success'"
           disable-transitions>{{scope.row.kind}}</el-tag>
             <el-tag
-           v-if="scope.row.kind=='上下班搭车'" 
+           v-if="scope.row.kind=='上下班搭车'"
           :type="'info'"
           disable-transitions>{{scope.row.kind}}</el-tag>
             <el-tag
-           v-if="scope.row.kind=='社区服务志愿者'" 
+           v-if="scope.row.kind=='社区服务志愿者'"
           :type="'warning'"
           disable-transitions>{{scope.row.kind}}</el-tag>
       </template>
@@ -144,10 +144,9 @@
  import Vue from 'vue'
   import Dialog from '@/views/community/wokeyi'
   import axios from 'axios'
- import date_trans from '@/api/date_trans.js'
   Vue.component('Dialog',Dialog)
 
-  
+
 
   export default {
     data() {
@@ -161,20 +160,20 @@
           user_id:21313,
           content:'会对撒谎对撒谎的哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈',
           numbers:1,
-          subject:'帮帮我！！！', 
+          subject:'帮帮我！！！',
           kind:'搬重物',
           begin_date: '2016-05-02',
           end_date:'2016-05-02',
           modify_date:'2016-05-02',
           status:'待响应',
           base64_image:'',
-          
+
         }, {
            id:2,
           user_id:21313,
           content:'会对撒谎对撒谎的哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈',
           numbers:1,
-          subject:'别帮我！！！', 
+          subject:'别帮我！！！',
           kind:'小时工',
           begin_date: '2016-05-02',
           end_date:'2016-05-02',
@@ -186,7 +185,7 @@
           user_id:21313,
           content:'会对撒谎对撒谎的哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈',
           numbers:1,
-          subject:'帮帮我！！！', 
+          subject:'帮帮我！！！',
           kind:'上下班搭车',
           begin_date: '2016-05-02',
           end_date:'2016-05-02',
@@ -198,7 +197,7 @@
           user_id:21313,
           content:'会对撒谎对撒谎的哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈',
           numbers:1,
-          subject:'帮帮我！！！', 
+          subject:'帮帮我！！！',
           kind:'社区服务志愿者',
           begin_date: '2016-05-02',
           end_date:'2016-05-02',
@@ -216,10 +215,10 @@
       .then(response =>{
         console.log(response.data);
       //   for(var i=0;i<response.data['data'].length;i++){
-      //    var k=response.data['data'][i]; 
-      //   response.data['data'][i].modifyDate=date_trans( k.modifyDate);    
-      //   response.data['data'][i].beginDate=date_trans( k.beginDate); 
-      //  response.data['data'][i].endDate=date_trans( k.endDate); 
+      //    var k=response.data['data'][i];
+      //   response.data['data'][i].modifyDate=date_trans( k.modifyDate);
+      //   response.data['data'][i].beginDate=date_trans( k.beginDate);
+      //  response.data['data'][i].endDate=date_trans( k.endDate);
       //  }
 
         this.tableData=response.data['data'];
@@ -229,25 +228,25 @@
       .catch(function (error) { // 请求失败处理
         console.log(error);
       });
-  }, 
-     
+  },
+
     methods: {
 
       help(val){
         this.vm.showDialog=true;
         localStorage.setItem('request_id',val.id);
-  
+
 
       },
       close(val){
           this.vm.showDialog = val;
-           
+
           },
               inputChange(e) {
                 //强制刷新
-                this.$forceUpdate() 
+                this.$forceUpdate()
             },
- 
+
       filterTag(value, row) {
         return row.kind === value;
       },
@@ -267,9 +266,9 @@
                 return this.tableData
             }
 
-    
+
     }
-    
+
 
   }
 </script>

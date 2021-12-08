@@ -20,6 +20,7 @@
           end-placeholder="结束日期"
           style="width: 400px"
           @input="handleDate"
+          @cancel="handleDate"
         ></el-date-picker>
         <el-button @click="getStatistics" icon="el-icon-search" type="primary"/>
       </div>
@@ -107,8 +108,8 @@ export default {
       },
       searchTime: [],
       form: {
-        startTime: '',
-        endTime: '',
+        startTime: null,
+        endTime: null,
         city: '',
         community: ''
       },
@@ -125,12 +126,12 @@ export default {
   },
   mounted: function () {
     //加载城市字典
-    getCities().then(res=>{
-      this.cities=res.data
+    getCities().then(res => {
+      this.cities = res.data
     })
     //加载城社区字典
-    getCommunities().then(res=>{
-      this.communities=res.data
+    getCommunities().then(res => {
+      this.communities = res.data
     })
     this.makeChart();
   },
@@ -183,6 +184,9 @@ export default {
     },
     handleDate(e) {
       this.$nextTick(() => {
+        if (!e) {
+          e = [null, null]
+        }
         this.$set(this.form, "startTime", e[0])
         this.$set(this.form, "endTime", e[1])
         console.log("change date", this.form)
@@ -190,10 +194,12 @@ export default {
     },
     getStatistics() {
       let that = this;
+      let startTime = this.form.startTime
+      let endTime = this.form.endTime
       getChartData(
         {
-          startTime: moment(this.startTime).format('yyyy-MM'),
-          endTime: moment(this.endTime).format('yyyy-MM'),
+          startTime: startTime == null ? null : moment(startTime).format('yyyy-MM'),
+          endTime: endTime == null ? null : moment(endTime).format('yyyy-MM'),
           city: this.form.city,
           community: this.form.community
         }
@@ -218,10 +224,16 @@ export default {
           this.orderSeries = []
           this.feeSeries = []
           this.xAxisDate = []
-          for (let i = 0; i < data['monthList'].length; i++) {
-            this.orderSeries[i] = data['orderList'][i]
-            this.feeSeries[i] = data['feeList'][i]
-            this.xAxisDate[i] = data['monthList'][i]
+          if (data['monthList'] == null) {
+            this.orderSeries = []
+            this.feeSeries = []
+            this.xAxisDate = []
+          } else {
+            for (let i = 0; i < data['monthList'].length; i++) {
+              this.orderSeries[i] = data['orderList'][i]
+              this.feeSeries[i] = data['feeList'][i]
+              this.xAxisDate[i] = data['monthList'][i]
+            }
           }
           this.makeChart()
         },
